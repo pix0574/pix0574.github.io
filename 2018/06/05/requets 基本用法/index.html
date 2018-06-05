@@ -7,13 +7,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="requets 基本用法几个常用的属性 r.status_code r.headers r.cookies r.url r.history ####获取并打印cookie的值 import requests r= requests.get(&amp;apos;url&amp;apos;) print(r.cookies)  for key,value in r.cookies.items(): print(key">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/06/05/requets 基本用法/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="requets 基本用法几个常用的属性 r.status_code r.headers r.cookies r.url r.history ####获取并打印cookie的值 import requests r= requests.get(&amp;apos;url&amp;apos;) print(r.cookies)  for key,value in r.cookies.items(): print(key">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-05T09:59:54.028Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="requets 基本用法几个常用的属性 r.status_code r.headers r.cookies r.url r.history ####获取并打印cookie的值 import requests r= requests.get(&amp;apos;url&amp;apos;) print(r.cookies)  for key,value in r.cookies.items(): print(key">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,9 +64,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-requets 基本用法" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-requets 基本用法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/06/05/requets 基本用法/" class="article-date">
   <time datetime="2018-06-05T09:59:48.966Z" itemprop="datePublished">2018-06-05</time>
@@ -142,39 +144,19 @@ print(r.status_code)
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-初识Python爬虫" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/05/初识Python爬虫/" class="article-date">
-  <time datetime="2018-06-05T07:37:08.068Z" itemprop="datePublished">2018-06-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#初识Python爬虫</p>
-<p>###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">import pandas</span><br><span class="line"></span><br><span class="line">r = requests.get(&apos;https://book.douban.com/subject/30144196/comments/&apos;).text</span><br><span class="line">#r是requets对象 lxml是解析工具解析工具，用来解析返回来的html数据</span><br><span class="line"></span><br><span class="line">soup = BeautifulSoup(r,&apos;lxml&apos;) </span><br><span class="line">pattern = soup.find_all(&apos;p&apos;,&apos;comment-content&apos;)</span><br><span class="line">#p标签 class属性</span><br><span class="line"> </span><br><span class="line">for item in pattern:</span><br><span class="line">    print(item.string)</span><br><span class="line">    </span><br><span class="line">comments = []</span><br><span class="line">for item in pattern:</span><br><span class="line">    comments.append(item.string)</span><br><span class="line">df = pandas.DataFrame(comments)</span><br><span class="line">#把列表comments的数据转换为pandas的文件类型DataFrame。</span><br><span class="line">#DataFrame 是一个表格或者类似二维数组的结构，它的各行表示一个实例，各列表示一个变量</span><br><span class="line"></span><br><span class="line">df.to_csv(&apos;comments.csv&apos; ,encoding=&apos;gbk&apos;)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/初识Python爬虫/" data-id="cji1ijmk90000ncv18of53iwb" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
+  
+    <a href="/2018/06/05/初识Python爬虫/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
   
 </article>
-
-
-  
-
 
 </section>
         

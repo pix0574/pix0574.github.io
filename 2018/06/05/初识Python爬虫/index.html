@@ -7,17 +7,17 @@
   
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##初识Python爬虫 ###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能 1234567891011121314151617181920212223import requestsfrom bs4 import BeautifulSoupimport pandasr = requests.get(&amp;apos;https://book.douban.com/subjec">
+  <meta name="description" content="#初识Python爬虫 ###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能 1234567891011121314151617181920212223import requestsfrom bs4 import BeautifulSoupimport pandasr = requests.get(&amp;apos;https://book.douban.com/subject">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://yoursite.com/2018/06/05/初识Python爬虫/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="##初识Python爬虫 ###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能 1234567891011121314151617181920212223import requestsfrom bs4 import BeautifulSoupimport pandasr = requests.get(&amp;apos;https://book.douban.com/subjec">
+<meta property="og:description" content="#初识Python爬虫 ###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能 1234567891011121314151617181920212223import requestsfrom bs4 import BeautifulSoupimport pandasr = requests.get(&amp;apos;https://book.douban.com/subject">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-05T08:04:29.465Z">
+<meta property="og:updated_time" content="2018-06-05T08:09:12.556Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="##初识Python爬虫 ###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能 1234567891011121314151617181920212223import requestsfrom bs4 import BeautifulSoupimport pandasr = requests.get(&amp;apos;https://book.douban.com/subjec">
+<meta name="twitter:description" content="#初识Python爬虫 ###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能 1234567891011121314151617181920212223import requestsfrom bs4 import BeautifulSoupimport pandasr = requests.get(&amp;apos;https://book.douban.com/subject">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -76,19 +76,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##初识Python爬虫</p>
+        <p>#初识Python爬虫</p>
 <p>###使用requests，bs4，pandas 爬取豆瓣短评信息 无翻页功能</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import requests</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line">import pandas</span><br><span class="line"></span><br><span class="line">r = requests.get(&apos;https://book.douban.com/subject/30144196/comments/&apos;).text</span><br><span class="line">#r是requets对象 lxml是解析工具解析工具，用来解析返回来的html数据</span><br><span class="line"></span><br><span class="line">soup = BeautifulSoup(r,&apos;lxml&apos;) </span><br><span class="line">pattern = soup.find_all(&apos;p&apos;,&apos;comment-content&apos;)</span><br><span class="line">#p标签 class属性</span><br><span class="line"> </span><br><span class="line">for item in pattern:</span><br><span class="line">    print(item.string)</span><br><span class="line">    </span><br><span class="line">comments = []</span><br><span class="line">for item in pattern:</span><br><span class="line">    comments.append(item.string)</span><br><span class="line">df = pandas.DataFrame(comments)</span><br><span class="line">#把列表comments的数据转换为pandas的文件类型DataFrame。</span><br><span class="line">#DataFrame 是一个表格或者类似二维数组的结构，它的各行表示一个实例，各列表示一个变量</span><br><span class="line"></span><br><span class="line">df.to_csv(&apos;comments.csv&apos; ,encoding=&apos;gbk&apos;)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/初识Python爬虫/" data-id="cji1egant00000wv1u00g49jj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/05/初识Python爬虫/" data-id="cji1ijmk90000ncv18of53iwb" class="article-share-link">Share</a>
       
       
     </footer>
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2018/06/05/requets 基本用法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
   
 </article>
 
@@ -119,6 +133,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/06/05/requets 基本用法/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2018/06/05/初识Python爬虫/">(no title)</a>

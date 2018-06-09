@@ -62,6 +62,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-猫眼top100-正则" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/09/猫眼top100-正则/" class="article-date">
+  <time datetime="2018-06-09T08:06:34.411Z" itemprop="datePublished">2018-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###获取猫眼电影top100<br>1、并用正则提取数据。<br>2、实现翻页功能。</p>
+<pre><code>import json
+import requests
+from requests.exceptions import RequestException
+import re
+import time
+
+
+def get_one_page(url):
+    try:
+        headers = {
+            &apos;User-Agent&apos;: &apos;,
+        }
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            return response.text
+        return None
+    except RequestException:
+        return None
+
+
+def parse_one_page(html):
+    pattern = re.compile(&apos;&lt;dd&gt;.*?board-index.*?&gt;(\d+)&lt;/i&gt;.*?data-src=&quot;(.*?)&quot;.*?name&quot;&gt;&lt;a&apos;
+                         + &apos;.*?&gt;(.*?)&lt;/a&gt;.*?star&quot;&gt;(.*?)&lt;/p&gt;.*?releasetime&quot;&gt;(.*?)&lt;/p&gt;&apos;
+                         + &apos;.*?integer&quot;&gt;(.*?)&lt;/i&gt;.*?fraction&quot;&gt;(.*?)&lt;/i&gt;.*?&lt;/dd&gt;&apos;, re.S)
+    items = re.findall(pattern, html)
+    for item in items:
+        yield {
+            &apos;index&apos;: item[0],
+            &apos;image&apos;: item[1],
+            &apos;title&apos;: item[2],
+            &apos;actor&apos;: item[3].strip()[3:],
+            &apos;time&apos;: item[4].strip()[5:],
+            &apos;score&apos;: item[5] + item[6]
+        }
+
+
+def write_to_file(content):
+    with open(&apos;result.txt&apos;, &apos;a&apos;, encoding=&apos;utf-8&apos;) as f:
+        f.write(json.dumps(content, ensure_ascii=False) + &apos;\n&apos;)
+
+
+def main(offset):
+    url = &apos;http://maoyan.com/board/4?offset=&apos; + str(offset)
+    html = get_one_page(url)
+    for item in parse_one_page(html):
+        print(item)
+        write_to_file(item)
+
+
+if __name__ == &apos;__main__&apos;:
+    for i in range(10):
+        main(offset=i * 10)
+        time.sleep(1)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/09/猫眼top100-正则/" data-id="cji74970i000080v1l6ien0ud" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-requets 基本用法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/06/05/requets 基本用法/" class="article-date">
@@ -203,6 +283,10 @@ print(r.status_code)
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/06/09/猫眼top100-正则/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2018/06/05/requets 基本用法/">(no title)</a>

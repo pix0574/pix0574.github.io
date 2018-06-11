@@ -62,6 +62,156 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-爬取西刺免费代理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/11/爬取西刺免费代理/" class="article-date">
+  <time datetime="2018-06-11T09:34:40.296Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##爬取西刺免费代理</p>
+<pre><code>import random
+import requests
+import time
+import pymongo
+from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+
+# 爬取代理的URL地址，选择的是西刺代理
+url_ip = &quot;http://www.xicidaili.com/nt/&quot;
+
+# 设定等待时间
+set_timeout = 5
+
+# 爬取代理的页数，2表示爬取2页的ip地址
+num = 2
+
+# 代理的使用次数
+count_time = 5
+
+# 构造headers
+ua = UserAgent()
+headers = {
+        &apos;User-Agent&apos;: ua.random
+}
+
+# 测试ip的URL
+url_for_test = &apos;http://httpbin.org/ip&apos;
+
+
+def scrawl_xici_ip(num):
+    &apos;&apos;&apos;
+    爬取代理ip地址，代理的url是西刺代理
+    &apos;&apos;&apos;
+    ip_list = []
+    for num_page in range(1, num):
+        url = url_ip + str(num_page)
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            content = response.text
+            soup = BeautifulSoup(content, &apos;lxml&apos;)
+            trs = soup.find_all(&apos;tr&apos;)
+            for i in range(1, len(trs)):
+                tr = trs[i]
+                tds = tr.find_all(&apos;td&apos;)
+                ip_item = tds[1].text + &apos;:&apos; + tds[2].text
+                # print(ip_item)
+                ip_list.append(ip_item)
+                ip_set = set(ip_list)  # 去掉可能重复的ip
+                ip_list = list(ip_set)
+            time.sleep(count_time)  # 等待5秒
+    return ip_list
+
+
+def ip_test(url_for_test, ip_info):
+    &apos;&apos;&apos;
+    测试爬取到的ip，测试成功则存入MongoDB
+    &apos;&apos;&apos;
+    for ip_for_test in ip_info:
+        # 设置代理
+        proxies = {
+            &apos;http&apos;: &apos;http://&apos; + ip_for_test,
+            &apos;https&apos;: &apos;http://&apos; + ip_for_test,
+        }
+        print(proxies)
+        try:
+            response = requests.get(url_for_test, headers=headers, proxies=proxies, timeout=10)
+            if response.status_code == 200:
+                ip = {&apos;ip&apos;: ip_for_test}
+                print(response.text)
+                print(&apos;测试通过&apos;)
+                write_to_MongoDB(ip)
+        except Exception as e:
+            print(e)
+            continue
+
+
+def write_to_MongoDB(proxies):
+    &apos;&apos;&apos;
+    将测试通过的ip存入MongoDB
+    &apos;&apos;&apos;
+    client = pymongo.MongoClient(host=&apos;localhost&apos;, port=27017)
+    db = client.PROXY
+    collection = db.proxies
+    result = collection.insert(proxies)
+    print(result)
+    print(&apos;存储MongoDB成功&apos;)
+
+
+def get_random_ip():
+    &apos;&apos;&apos;
+    随机取出一个ip
+    &apos;&apos;&apos;
+    client = pymongo.MongoClient(host=&apos;localhost&apos;, port=27017)
+    db = client.PROXY
+    collection = db.proxies
+    items = collection.find()
+    length = items.count()
+    ind = random.randint(0, length - 1)
+    useful_proxy = items[ind][&apos;ip&apos;].replace(&apos;\n&apos;, &apos;&apos;)
+    proxy = {
+        &apos;http&apos;: &apos;http://&apos; + useful_proxy,
+        &apos;https&apos;: &apos;http://&apos; + useful_proxy,
+    }
+    response = requests.get(url_for_test, headers=headers, proxies=proxy, timeout=10)
+    if response.status_code == 200:
+        return useful_proxy
+    else:
+        print(&apos;此{ip}已失效&apos;.format(useful_proxy))
+        collection.remove(useful_proxy)
+        print(&apos;已经从MongoDB移除&apos;)
+        get_random_ip()
+
+
+def main():
+    ip_info = []
+    ip_info = scrawl_xici_ip(2)
+    sucess_proxy = ip_test(url_for_test, ip_info)
+    finally_ip = get_random_ip()
+    print(&apos;取出的ip为：&apos; + finally_ip)
+
+
+if __name__ == &apos;__main__&apos;:
+    main()
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/11/爬取西刺免费代理/" data-id="cjia2a9f20001zwv1tc3f0wdy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-猫眼top100-正则" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/06/09/猫眼top100-正则/" class="article-date">
@@ -132,7 +282,7 @@ if __name__ == &apos;__main__&apos;:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/09/猫眼top100-正则/" data-id="cji74970i000080v1l6ien0ud" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/09/猫眼top100-正则/" data-id="cjia2a9f80003zwv12xwd0tl9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -142,9 +292,9 @@ if __name__ == &apos;__main__&apos;:
 
 
   
-    <article id="post-requets 基本用法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Requets 基本用法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/06/05/requets 基本用法/" class="article-date">
+    <a href="/2018/06/05/Requets 基本用法/" class="article-date">
   <time datetime="2018-06-05T09:59:48.966Z" itemprop="datePublished">2018-06-05</time>
 </a>
     
@@ -216,7 +366,7 @@ print(r.status_code)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/requets 基本用法/" data-id="cji1ijmkj0001ncv1n85zw1ty" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/05/Requets 基本用法/" data-id="cjia2a9et0000zwv1tgp9nhkb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -244,7 +394,7 @@ print(r.status_code)
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/06/05/初识Python爬虫/" data-id="cji1ijmk90000ncv18of53iwb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/06/05/初识Python爬虫/" data-id="cjia2a9f60002zwv13b0ats4y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,11 +435,15 @@ print(r.status_code)
       <ul>
         
           <li>
+            <a href="/2018/06/11/爬取西刺免费代理/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/06/09/猫眼top100-正则/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2018/06/05/requets 基本用法/">(no title)</a>
+            <a href="/2018/06/05/Requets 基本用法/">(no title)</a>
           </li>
         
           <li>
